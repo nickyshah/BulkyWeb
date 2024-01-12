@@ -22,6 +22,7 @@ namespace BulkyWeb_Razor.Pages.Categories
         {
             _db.Categories.Add(Category);
             _db.SaveChanges();
+            TempData["success"] = "Category has been deleted Successfully";
             return RedirectToPage("Index");
         }
     }
