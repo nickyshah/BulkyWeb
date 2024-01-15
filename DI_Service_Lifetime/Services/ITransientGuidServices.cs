@@ -2,5 +2,6 @@
 {
     public interface ITransientGuidServices
     {
+        string getguid();
     }
 }
