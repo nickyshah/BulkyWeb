@@ -13,6 +13,7 @@ namespace Bulky.DataAccess.Data
         }
 
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Product> Products { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -21,6 +22,21 @@ namespace Bulky.DataAccess.Data
                 new Category { Id = 2, Name = "Scifi", DisplayOrder = 2 },
                 new Category { Id = 3, Name = "Drama", DisplayOrder = 3 }
                 );
-        }
+            modelBuilder.Entity<Product>().HasData(
+                    new Product
+					{
+						Id = 1,
+						Title = "Fortune of Time",
+						Author = "Billy Spark",
+						Description = "Present Vitar sodales Libero",
+						ISBN = "SWD9999001",
+                        ListPrice = 99,
+                        Price  = 90,
+                        Price50 = 85,
+                        Price100 = 80
+					}
+                );
+
+		}
     }
 }

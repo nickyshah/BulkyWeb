@@ -14,7 +14,10 @@ namespace Bulky.Models.Models
         public int Id { get; set; }
 
         [Required]
-        public string Title { get; set; } 
+        public string Title { get; set; }
+
+     
+        public string Description { get; set; }
 
         [Required]
         public string ISBN { get; set; } 
