@@ -21,7 +21,7 @@ namespace Bulky.Models
         public string? State { get; set; }
 
         [Display(Name = "Post Code")]
-        public string? PostCode { get; set; }
+        public string? PostalCode { get; set; }
 
     }
 }
