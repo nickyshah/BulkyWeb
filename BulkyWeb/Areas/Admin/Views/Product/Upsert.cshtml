@@ -6,7 +6,7 @@
     <div class="card-header bg-secondary bg-gradient m-lg-0 py-3">
         <div action="row">
             <div class="col-12 text-center">
-                <h2 class="text-white py-2">@(Model.Product.Id != 0? "Update" : "Create") Product</h2>
+                <h2 class="text-white py-2">@(Model.Product.Id != 0 ? "Update" : "Create") Product</h2>
             </div>
         </div>
     </div>
@@ -94,7 +94,7 @@
 
                             </div>
                             <div class="col-6 col-md-3">
-                                <a asp-controller="Product" asp-action="Index" class="btn btn-secondary form-control">Back to List</a>
+                                <a asp-controller="Company" asp-action="Index" class="btn btn-secondary form-control">Back to List</a>
                             </div>
                         </div>
 
@@ -104,13 +104,13 @@
                     <img src="@Model.Product.ImageUrl" width="100%" style="border-radius:5px; border:1px; solid: #bbb9b9" />
                 </div>
             </div>
-            
+
         </form>
     </div>
 </div>
 
 
-@section Scripts{
+@section Scripts {
     <script>
         tinymce.init({
             selector: 'textarea',
@@ -126,6 +126,6 @@
         });
     </script>
     @{
-    <partial name="_ValidationScriptsPartial"/>
+        <partial name="_ValidationScriptsPartial" />
     }
 }

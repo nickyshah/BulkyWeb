@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
-using Bulky.DataAccess.Data;
+﻿using Bulky.DataAccess.Data;
 using Bulky.DataAccess.Repository.IRepository;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace Bulky.DataAccess.Repository
 {
@@ -14,14 +9,14 @@ namespace Bulky.DataAccess.Repository
     {
         private readonly ApplicationDbContext _db;
         internal DbSet<T> dbSet;
-        public Repository(ApplicationDbContext db) 
+        public Repository(ApplicationDbContext db)
         {
             _db = db;
             this.dbSet = _db.Set<T>();  // This technically means _db.categories == dbset
 
-            _db.Products.Include(u => u.Category).Include(u=>u.CategoryId);
-           
-            
+            _db.Products.Include(u => u.Category).Include(u => u.CategoryId);
+
+
         }
         public void Add(T entity)
         {
@@ -49,7 +44,7 @@ namespace Bulky.DataAccess.Repository
             IQueryable<T> query = dbSet;
             if (!string.IsNullOrEmpty(includeProperties))
             {
-                foreach(var includeProp in includeProperties
+                foreach (var includeProp in includeProperties
                     .Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
                 {
                     query = query.Include(includeProp);
