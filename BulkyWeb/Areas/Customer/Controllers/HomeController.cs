@@ -52,13 +52,15 @@ namespace BulkyWeb.Areas.Customer.Controllers
                 //shopping cart exists
                 cartFromDb.Count += ShoppingCart.Count;
                 _unitOfWork.ShoppingCart.Update(cartFromDb);
+                _unitOfWork.Save();
             }
             else
             {
                 _unitOfWork.ShoppingCart.Add(ShoppingCart);
+                _unitOfWork.Save();
+                //HttpContext.Session.SetInt32(SD.SessionCart,_unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == userId).Count());
             }
             TempData["success"] = "Cart Updated Successfully !!";
-            _unitOfWork.Save();
 
             return RedirectToAction(nameof(Index));
         }
