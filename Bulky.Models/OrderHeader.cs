@@ -9,11 +9,11 @@ namespace Bulky.DataAccess
     {
         public int Id { get; set; }
 
-        public string ApllicationUserId { get; set; }
+        public string ApplicationUserId { get; set; }
 
-        [ForeignKey("ApllicationUserId")]
+        [ForeignKey("ApplicationUserId")]
         [ValidateNever]
-        public ApplicationUser ApllicationUser { get; set; }
+        public ApplicationUser ApplicationUser { get; set; }
 
         public DateTime OrderDate { get; set; }
 
