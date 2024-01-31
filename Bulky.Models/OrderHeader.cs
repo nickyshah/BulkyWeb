@@ -9,7 +9,7 @@ namespace Bulky.DataAccess
     {
         public int Id { get; set; }
 
-        public string ApplicationUserId { get; set; }
+        public string? ApplicationUserId { get; set; }
 
         [ForeignKey("ApplicationUserId")]
         [ValidateNever]
@@ -28,20 +28,23 @@ namespace Bulky.DataAccess
         public DateTime PaymentDate { get; set; }
         public DateOnly PaymentDueDate { get; set; }
 
+        public string? SessionId { get; set; }
+        public string? PaymentIntentId { get; set; }
+
         [Required]
         public string Name { get; set; }
 
         [Display(Name = "Street Address")]
         [Required]
-        public string? StreetAddress { get; set; }
+        public string StreetAddress { get; set; }
         [Required]
-        public string? City { get; set; }
+        public string City { get; set; }
         [Required]
-        public string? State { get; set; }
+        public string State { get; set; }
 
         [Display(Name = "Post Code")]
         [Required]
-        public string? PostalCode { get; set; }
+        public string PostalCode { get; set; }
 
         [Required]
         public string PhoneNumber { get; set; }

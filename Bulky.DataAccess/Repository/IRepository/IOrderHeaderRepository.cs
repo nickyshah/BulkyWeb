@@ -4,5 +4,7 @@
     {
 
         void Update(OrderHeader obj);
+        void UpdateStatus(int id, string orderStatus, String? paymentStatus = null);
+        void UpdateStripePaymentID(int id, string orderStatus, String? paymentIntentId);
     }
 }
