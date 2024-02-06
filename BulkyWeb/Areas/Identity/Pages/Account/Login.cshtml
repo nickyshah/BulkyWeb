@@ -17,7 +17,7 @@
                     <form id="account" method="post">
 
                         <h2 class="border-bottom pb-3 mb-4 text-secondary text-center">Use a local account to log in.</h2>
-                        
+
                         <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
                         <div class="form-floating mb-3">
                             <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
@@ -52,11 +52,10 @@
                     </form>
                 </section>
             </div>
-            <div class="col-md-12">
+            <div class="col-md-12 p-3 text-center">
                 <section>
                     <p class="divider-text d-flex pt-3">Or</p>
-                    <h3>Use another service to log in.</h3>
-                    <hr />
+
                     @{
                         if ((Model.ExternalLogins?.Count ?? 0) == 0)
                         {
