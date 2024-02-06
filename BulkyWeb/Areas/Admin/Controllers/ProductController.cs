@@ -1,11 +1,10 @@
-﻿using Bulky.DataAccess.Data;
+﻿using Bulky.DataAccess.Repository.IRepository;
 using Bulky.Models.Models;
-using Microsoft.AspNetCore.Mvc;
-using Bulky.DataAccess.Repository.IRepository;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Bulky.Models.ViewModals;
 using Bulky.Utility;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace BulkyWeb.Areas.Admin.Controllers
 {
@@ -28,15 +27,15 @@ namespace BulkyWeb.Areas.Admin.Controllers
         public IActionResult Index()
         {
             /// var objProductList = _db.Categories.ToList();
-            List<Product> objProductList = _unitOfWork.Product.GetAll(includeProperties:"Category").ToList();
-            
+            List<Product> objProductList = _unitOfWork.Product.GetAll(includeProperties: "Category").ToList();
+
             return View(objProductList);
         }
 
 
         //public IActionResult Create() 
         public IActionResult Upsert(int? id)
-            {
+        {
             //IEnumerable<SelectListItem> CategoryList = _unitOfWork.Category.GetAll().Select(u => new SelectListItem
             //{
             //    Text = u.Name,
@@ -54,7 +53,7 @@ namespace BulkyWeb.Areas.Admin.Controllers
                 }),
                 Product = new Product()
             };
-            if(id == null || id == 0)
+            if (id == null || id == 0)
             {
                 //Create
                 return View(productVM);
@@ -70,21 +69,21 @@ namespace BulkyWeb.Areas.Admin.Controllers
         //public IActionResult Create(ProductVM productVM)
         public IActionResult Upsert(ProductVM productVM, IFormFile? file)
         {
-           
+
             if (ModelState.IsValid)
             {
                 string wwwRootPath = _webHostEnvironment.WebRootPath;
-                if(file != null)
+                if (file != null)
                 {
                     string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
                     string productPath = Path.Combine(wwwRootPath, @"Images\Product");
 
-                    if(!string.IsNullOrEmpty(productVM.Product.ImageUrl))
+                    if (!string.IsNullOrEmpty(productVM.Product.ImageUrl))
                     {
                         // delete the old image 
                         var oldImagePath = Path.Combine(wwwRootPath, productVM.Product.ImageUrl.TrimStart('\\'));
 
-                        if(System.IO.File.Exists(oldImagePath))
+                        if (System.IO.File.Exists(oldImagePath))
                         {
                             System.IO.File.Delete(oldImagePath);
                         }
@@ -97,7 +96,7 @@ namespace BulkyWeb.Areas.Admin.Controllers
 
                     productVM.Product.ImageUrl = @"\Images\Product\" + fileName;
                 }
-                if(productVM.Product.Id == 0)
+                if (productVM.Product.Id == 0)
                 {
                     _unitOfWork.Product.Add(productVM.Product);
                     _unitOfWork.Save();
@@ -109,7 +108,7 @@ namespace BulkyWeb.Areas.Admin.Controllers
                     _unitOfWork.Save();
                     TempData["success"] = "Product has been Updated Successfully";
                 }
-                
+
                 return RedirectToAction("Index");
             }
             else
@@ -197,7 +196,7 @@ namespace BulkyWeb.Areas.Admin.Controllers
         public IActionResult Delete(int? id)
         {
             var productToBeDeleted = _unitOfWork.Product.Get(u => u.Id == id);
-            if(productToBeDeleted == null)
+            if (productToBeDeleted == null)
             {
                 return Json(new { success = false, message = "Error While Deleting" });
             }
@@ -211,7 +210,7 @@ namespace BulkyWeb.Areas.Admin.Controllers
 
             _unitOfWork.Product.Remove(productToBeDeleted);
             _unitOfWork.Save();
-            return Json(new {success = true,message = "Deleted Successfully" });
+            return Json(new { success = true, message = "Deleted Successfully" });
 
         }
         #endregion
