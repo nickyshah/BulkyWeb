@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Bulky.DataAccess.DbInitializer
+﻿namespace Bulky.DataAccess.DbInitializer
 {
-    internal interface Interface1
+    public interface IDbInitializer
     {
+        void Initialize();
     }
 }

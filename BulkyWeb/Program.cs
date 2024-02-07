@@ -1,12 +1,15 @@
 
 using Bulky.DataAccess.Data;
+using Bulky.DataAccess.DbInitializer;
 using Bulky.DataAccess.Repository;
 using Bulky.DataAccess.Repository.IRepository;
 using Bulky.Utility;
+using BulkyBook.DataAccess.DbInitializer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Stripe;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,6 +33,7 @@ builder.Services.ConfigureApplicationCookie(options =>
 });
 
 builder.Services.AddDistributedMemoryCache();
+
 builder.Services.AddSession(
     options =>
     {
@@ -37,6 +41,8 @@ builder.Services.AddSession(
         options.Cookie.HttpOnly = true;
         options.Cookie.IsEssential = true;
     });
+
+builder.Services.AddScoped<IDbInitializer, DbInitializer>();
 
 builder.Services.AddRazorPages();
 
@@ -72,6 +78,8 @@ app.UseAuthorization();
 
 app.UseSession();
 
+SeedDatabase();
+
 app.MapRazorPages();
 
 app.MapControllerRoute(
@@ -79,3 +87,12 @@ app.MapControllerRoute(
     pattern: "{area=Customer}/{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
+
+void SeedDatabase()
+{
+    using (var scope = app.Services.CreateScope())
+    {
+        var dbInitializer = scope.ServiceProvider.GetRequiredService<IDbInitializer>();
+        dbInitializer.Initialize();
+    }
+}
