@@ -13,35 +13,11 @@ function loadDataTable() {
             { data: 'company.name', "width": "15%" },
             { data: 'role', "width": "15%" },
             {
-                data: { id: "id", lockOutEnd: "lockOutEnd" },
+                data: 'id',
                 "render": function (data) {
-                    var today = new Date().getTime();
-                    var lockout = new Date(data.lockOutEnd).getTime();
-                    if (lockout > today) {
-                        return `
-                        <div class="text-center">
-                                <a onclick=lockUnlock(`${ data.id } `) class="btn btn-danger text-white" style="cursor:pointer; width:100px;">
-                                <i class="bi bi-lock-fill"></i> Lock
-                                </a>
-                                <a class="btn btn-danger text-white" style="cursor:pointer; width:150px;">
-                                <i class="bi bi-pencil-square"></i> Permission
-                                </a>
-                        </div>
-                    `
-                    }
-                    else {
-                        return `
-                            <div class="text-center">
-                                 <a onclick=lockUnlock(`${ data.id } `) class="btn btn-success text-white" style="cursor:pointer; width:100px;">
-                                    <i class="bi bi-unlock-fill"></i> Unlock
-                                 </a>
-                                 <a class="btn btn-danger text-white" style="cursor:pointer; width:150px;">
-                                    <i class="bi bi-pencil-square"></i> Permission
-                                 </a>
-                            </div>
-                    `
-                    }
-
+                    return `<div class="w-75 btn-group" role="group">
+                    <a href="/admin/company/upsert?id=${data}" class="btn btn-primary mx-2"><i class="bi bi-pencil-square"></i> Edit</a>
+                    </div>`;
                 },
                 "width": "25%"
             }
@@ -50,17 +26,3 @@ function loadDataTable() {
 }
 
 
-function lockUnlock(id) {
-    $.ajax({
-        type: "POST",
-        url: `/Admin/User/LockUnlock`,
-        data: JSON.stringify(id),
-        contentType: "application/json",
-        success: function (data) {
-            if (data.success) {
-                toastr.success(data.message);
-                datatTable.ajax.reload();
-            }
-        }
-    })
-}

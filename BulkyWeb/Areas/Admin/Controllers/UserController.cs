@@ -1,6 +1,6 @@
 ﻿using Bulky.DataAccess.Data;
+using Bulky.DataAccess.Repository.IRepository;
 using Bulky.Models;
-using Bulky.Models.Models;
 using Bulky.Utility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -12,12 +12,12 @@ namespace BulkyWeb.Areas.Admin.Controllers
     [Authorize(Roles = SD.Role_Admin)]
     public class UserController : Controller
     {
-        //private readonly IUnitOfWork _unitOfWork;
         private readonly ApplicationDbContext _db;
+        //private readonly IUnitOfWork _unitOfWork;
 
         //public object Modelstate { get; private set; }
 
-        public UserController(/*IUnitOfWork unitOfWork*/ ApplicationDbContext db)
+        public UserController(IUnitOfWork unitOfWork, ApplicationDbContext db)
         {
             //_unitOfWork = unitOfWork;
             _db = db;
@@ -28,60 +28,24 @@ namespace BulkyWeb.Areas.Admin.Controllers
         }
 
 
+
         #region API Calls
 
-        //[HttpGet]
-        //public IActionResult GetAll()
-        //{
-        //    List<ApplicationUser> objUserList = _unitOfWork.ApplicationUser.GetAll().ToList();
-        //    return Json(new { data = objUserList });
-        //}
         [HttpGet]
         public IActionResult GetAll()
         {
             List<ApplicationUser> objUserList = _db.ApplicationUsers.Include(u => u.Company).ToList();
 
-            var userRoles = _db.UserRoles.ToList();
-            var roles = _db.Roles.ToList();
 
-            foreach (var user in objUserList)
-            {
-                var roleId = userRoles.FirstOrDefault(u => u.UserId == user.Id).RoleId;
-                user.Role = roles.FirstOrDefault(u => u.Id == roleId).Name;
-
-                if (user.Company == null)
-                {
-                    user.Company = new Company()
-                    {
-                        Name = ""
-                    };
-                }
-            }
 
             return Json(new { data = objUserList });
         }
 
-        [HttpPost]
-        public IActionResult LockUnlock([FromBody] string id)
+        [HttpDelete]
+        public IActionResult Delete(int? id)
         {
 
-            var objFromDb = _db.ApplicationUsers.FirstOrDefault(u => u.Id == id);
-            if (objFromDb == null)
-            {
-                return Json(new { success = false, message = "Error While Locking/Unlocking" });
-            }
-
-            if (objFromDb.LockoutEnd != null && objFromDb.LockoutEnd > DateTime.Now)
-            {
-                // user is currently locked and we need to unlock them
-                objFromDb.LockoutEnd = DateTime.Now;
-            }
-            else
-            {
-                objFromDb.LockoutEnd = DateTime.Now.AddYears(1000);
-            }
-            _db.SaveChanges();
-            return Json(new { success = true, message = "Lock/Unlock Succcessfull" });
+            return Json(new { success = true, message = "Deleted Successfully" });
 
         }
         #endregion
