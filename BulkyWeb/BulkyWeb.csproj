@@ -38,14 +38,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <UpToDateCheckInput Remove="Areas\Admin\Views\User\RoleManagement.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <_ContentIncludedByDefault Remove="Areas\Admin\Views\User\RoleManagement.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="Areas\Admin\Views\User\RoleManagement.cshtml" />
   </ItemGroup>
 

@@ -32,7 +32,7 @@ namespace BulkyWeb.Areas.Admin.Controllers
 
         public IActionResult RoleManagement(string userId)
         {
-            string RoleId = _db.UserRoles.FirstOrDefault(u => u.UserId == userId).RoleId;
+            string RoleID = _db.UserRoles.FirstOrDefault(u => u.UserId == userId).RoleId;
 
             RoleManagementVM RoleVM = new RoleManagementVM()
             {
@@ -49,7 +49,7 @@ namespace BulkyWeb.Areas.Admin.Controllers
                 })
             };
 
-            RoleVM.ApplicationUser.Role = _db.Roles.FirstOrDefault(u => u.Id == RoleId).Name;
+            RoleVM.ApplicationUser.Role = _db.Roles.FirstOrDefault(u => u.Id == RoleID).Name;
             return View(RoleVM);
         }
 
