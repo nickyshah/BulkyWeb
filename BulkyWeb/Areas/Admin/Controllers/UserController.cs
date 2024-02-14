@@ -5,6 +5,7 @@ using Bulky.Models.Models;
 using Bulky.Models.ViewModals;
 using Bulky.Utility;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -19,11 +20,13 @@ namespace BulkyWeb.Areas.Admin.Controllers
         //private readonly IUnitOfWork _unitOfWork;
 
         //public object Modelstate { get; private set; }
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public UserController(IUnitOfWork unitOfWork, ApplicationDbContext db)
+        public UserController(IUnitOfWork unitOfWork, ApplicationDbContext db, UserManager<IdentityUser> userManager)
         {
             //_unitOfWork = unitOfWork;
             _db = db;
+            _userManager = userManager;
         }
         public IActionResult Index()
         {
@@ -51,6 +54,34 @@ namespace BulkyWeb.Areas.Admin.Controllers
 
             RoleVM.ApplicationUser.Role = _db.Roles.FirstOrDefault(u => u.Id == RoleID).Name;
             return View(RoleVM);
+        }
+
+        [HttpPost]
+        public IActionResult RoleManagement(RoleManagementVM roleManagementVM)
+        {
+            string RoleID = _db.UserRoles.FirstOrDefault(u => u.UserId == roleManagementVM.ApplicationUser.Id).RoleId;
+            string oldRole = _db.Roles.FirstOrDefault(u => u.Id == RoleID).Name;
+
+            if (!(roleManagementVM.ApplicationUser.Role == oldRole))
+            {
+                // a role was updated
+                ApplicationUser applicationUser = _db.ApplicationUsers.FirstOrDefault(u => u.Id == roleManagementVM.ApplicationUser.Id);
+                if (roleManagementVM.ApplicationUser.Role == SD.Role_Company)
+                {
+                    applicationUser.CompanyId = roleManagementVM.ApplicationUser.CompanyId;  // assigning the new company name to that user
+                }
+                if (oldRole == SD.Role_Company)
+                {
+                    applicationUser.CompanyId = null;
+                }
+                _db.SaveChanges();
+
+                _userManager.RemoveFromRoleAsync(applicationUser, oldRole).GetAwaiter().GetResult();
+                _userManager.AddToRoleAsync(applicationUser, roleManagementVM.ApplicationUser.Role).GetAwaiter().GetResult();
+
+            }
+
+            return RedirectToAction("Index");
         }
 
 
