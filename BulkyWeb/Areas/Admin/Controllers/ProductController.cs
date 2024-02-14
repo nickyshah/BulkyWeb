@@ -242,6 +242,19 @@ namespace BulkyWeb.Areas.Admin.Controllers
             //    System.IO.File.Delete(oldImagePath);
             //}
 
+            string productPath = @"images\products\product-" + id;
+            string finalPath = Path.Combine(_webHostEnvironment.WebRootPath, productPath);
+
+            if (Directory.Exists(finalPath))
+            {
+                string[] filepaths = Directory.GetFiles(finalPath);
+                foreach (string filepath in filepaths)
+                {
+                    System.IO.File.Delete(filepath);
+                }
+                Directory.Delete(finalPath);
+            }
+
             _unitOfWork.Product.Remove(productToBeDeleted);
             _unitOfWork.Save();
             return Json(new { success = true, message = "Deleted Successfully" });
