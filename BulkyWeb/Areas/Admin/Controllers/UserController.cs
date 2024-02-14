@@ -1,5 +1,4 @@
 ﻿using Bulky.DataAccess.Data;
-using Bulky.DataAccess.Repository.IRepository;
 using Bulky.Models;
 using Bulky.Models.Models;
 using Bulky.Models.ViewModals;
@@ -22,7 +21,7 @@ namespace BulkyWeb.Areas.Admin.Controllers
         //public object Modelstate { get; private set; }
         private readonly UserManager<IdentityUser> _userManager;
 
-        public UserController(IUnitOfWork unitOfWork, ApplicationDbContext db, UserManager<IdentityUser> userManager)
+        public UserController(ApplicationDbContext db, UserManager<IdentityUser> userManager)
         {
             //_unitOfWork = unitOfWork;
             _db = db;
@@ -59,8 +58,9 @@ namespace BulkyWeb.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult RoleManagement(RoleManagementVM roleManagementVM)
         {
-            string RoleID = _db.UserRoles.FirstOrDefault(u => u.UserId == roleManagementVM.ApplicationUser.Id).RoleId;
-            string oldRole = _db.Roles.FirstOrDefault(u => u.Id == RoleID).Name;
+            //string RoleID = _db.UserRoles.FirstOrDefault(u => u.UserId == roleManagementVM.ApplicationUser.Id).RoleId;
+            string RoleId = _db.UserRoles.FirstOrDefault(u => u.UserId == roleManagementVM.ApplicationUser.Id).RoleId;
+            string oldRole = _db.Roles.FirstOrDefault(u => u.Id == RoleId).Name;
 
             if (!(roleManagementVM.ApplicationUser.Role == oldRole))
             {
