@@ -20,6 +20,7 @@ namespace Bulky.DataAccess.Data
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public DbSet<Company> Company { get; set; }
         public DbSet<ShoppingCart> ShoppingCarts { get; set; }
+        public DbSet<ProductImage> ProductImages { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
         public DbSet<OrderHeader> OrderHeaders { get; set; }
 
@@ -64,8 +65,7 @@ namespace Bulky.DataAccess.Data
                         Price = 90,
                         Price50 = 85,
                         Price100 = 80,
-                        CategoryId = 7,
-                        ImageUrl = ""
+                        CategoryId = 7
                     }
                 );
 
