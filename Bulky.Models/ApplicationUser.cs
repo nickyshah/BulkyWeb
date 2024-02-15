@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Bulky.Models
 {
+    [Table("AspNetUsers")]
     public class ApplicationUser : IdentityUser
     {
         [Required]

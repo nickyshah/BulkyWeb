@@ -56,6 +56,18 @@ builder.Services.AddAuthentication().AddFacebook(opt =>
     opt.ClientSecret = "207c0fb9651056496f634dcb993f3e0e";
 });
 
+builder.Services.AddAuthentication().AddMicrosoftAccount(opt =>
+{
+    opt.ClientId = "6KS8Q~VWXz10UEUiRrI9Xin2X5F-~jmY2gdl1csP";
+    opt.ClientSecret = "2de2a47a-e3c1-4f4f-b054-b475d65757ac";
+});
+
+builder.Services.AddAuthentication().AddGoogle(opt =>
+{
+    opt.ClientId = "233043904565-cde6ifrg1m6acpoqopln9ib2690u04ab.apps.googleusercontent.com";
+    opt.ClientSecret = "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";
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
